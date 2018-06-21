@@ -38,6 +38,8 @@ env = gym.make('CarRacing-v0')
 
 model = build_model()
 
+border_reward = 0.
+
 for epoch_no in range(EPOCHS):
 
     t = time.time()
@@ -76,7 +78,7 @@ for epoch_no in range(EPOCHS):
 
                 inputs.append(new_observation)
 
-                if reward > 0:
+                if reward > border_reward:
                     target_steer = np.zeros(10)
                     target_gas = np.zeros(10)
                     target_brake = np.zeros(10)
@@ -106,6 +108,7 @@ for epoch_no in range(EPOCHS):
     ])
 
     rewards = np.array(rewards)
+    border_reward = rewards.mean()
 
     print('reward:', rewards.mean(), 'min/max', rewards.min(), rewards.max())
 
